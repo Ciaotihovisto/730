@@ -160,6 +160,7 @@
   </div>
 </form>
 <div id="counter">Sezioni completate: 0 / 8</div>
+<div id="fileCounter" style="margin-top: 10px; font-size: 16px; font-weight: bold;">File caricati: 0</div>
 <div class="progress-bar-container">
   <div id="progressBar" class="progress-bar"></div>
 </div>
@@ -196,6 +197,32 @@ function validateFiles(input) {
     }
   }
 }
+
+function updateCounter() {
+  const form = document.getElementById('uploadForm');
+  const sections = form.querySelectorAll('.section');
+  let completedSections = 0;
+  let totalFiles = 0;
+
+  sections.forEach(section => {
+    const inputs = section.querySelectorAll('input[type="file"]');
+    let hasFiles = false;
+
+    inputs.forEach(input => {
+      if (input.files.length > 0) {
+        hasFiles = true;
+        totalFiles += input.files.length;
+      }
+    });
+
+    if (hasFiles) completedSections++;
+  });
+
+  document.getElementById('counter').innerText = `Sezioni completate: ${completedSections} / 8`;
+  document.getElementById('progressBar').style.width = (completedSections / 8) * 100 + '%';
+  document.getElementById('fileCounter').innerText = `File caricati: ${totalFiles}`;
+}
+
 
 document.querySelectorAll('input[type="file"]').forEach(input => {
   input.addEventListener('change', function() {
