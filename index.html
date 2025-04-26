@@ -156,6 +156,11 @@ const allowedExtensions = ['bmp', 'doc', 'docx', 'jpeg', 'jpg', 'mov', 'mp4', 'm
 const maxFileSize = 5 * 1024 * 1024; // 5MB
 const maxFilenameLength = 100;
 
+document.querySelectorAll('input[type="file"]').forEach(input => {
+  input.setAttribute('accept', '*/*');
+});
+
+
 function validateFiles(input) {
   for (const file of input.files) {
     const ext = file.name.split('.').pop().toLowerCase();
