@@ -33,26 +33,12 @@
     input[type="file"] {
       display: block;
       margin-top: 6px;
-      padding: 12px;
-      border: 2px dashed #ccc;
-      border-radius: 10px;
-      background: #eef4fb;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #fafafa;
       width: 100%;
       cursor: pointer;
-      text-align: center;
-      font-size: 16px;
-    }
-    input[type="file"]::file-selector-button {
-      padding: 10px 20px;
-      background-color: #3498db;
-      border: none;
-      border-radius: 8px;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    input[type="file"]::file-selector-button:hover {
-      background-color: #2980b9;
     }
     h1 {
       font-weight: 600;
@@ -165,13 +151,6 @@
 </div>
 <button onclick="downloadAllZips()">Scarica Archivi</button>
 
-<div id="downloadProgress" style="display:none; margin-top:10px;">
-  <p>Preparazione archivi in corso...</p>
-  <div class="progress-bar-container">
-    <div id="progressBarDownload" class="progress-bar"></div>
-  </div>
-</div>
-
 <script>
 const allowedExtensions = ['bmp', 'doc', 'docx', 'jpeg', 'jpg', 'mov', 'mp4', 'mpeg', 'odt', 'pdf', 'png', 'rtf', 'tif', 'tiff', 'txt', 'zip'];
 const maxFileSize = 5 * 1024 * 1024; // 5MB
@@ -180,6 +159,7 @@ const maxFilenameLength = 100;
 document.querySelectorAll('input[type="file"]').forEach(input => {
   input.setAttribute('accept', '*/*');
 });
+
 
 function validateFiles(input) {
   for (const file of input.files) {
@@ -229,12 +209,6 @@ function downloadAllZips() {
   const sections = form.querySelectorAll('.section');
   const maxZipSize = 5 * 1024 * 1024; // 5MB
 
-  document.getElementById('downloadProgress').style.display = 'block';
-  document.getElementById('progressBarDownload').style.width = '0%';
-
-  let totalSections = sections.length;
-  let processedSections = 0;
-
   sections.forEach(section => {
     const inputs = section.querySelectorAll('input[type="file"]');
     let files = [];
@@ -270,14 +244,7 @@ function downloadAllZips() {
         });
       }
     }
-
-    processedSections++;
-    document.getElementById('progressBarDownload').style.width = (processedSections / totalSections) * 100 + '%';
   });
-
-  setTimeout(() => {
-    document.getElementById('downloadProgress').style.display = 'none';
-  }, 1000);
 }
 
 if ('serviceWorker' in navigator) {
