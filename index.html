@@ -107,7 +107,7 @@
 <form id="uploadForm">
   <div class="section" id="section1">
     <h3>1. Dati personali</h3>
-    <div class="item">Documento d’identità tuo: <input type="file" name="1_documento_identita" multiple accept="*/*"></div>
+    <div class="item">Documento d’identità tuo: <input type="file" name="1_documento_identita" multiple></div>
     <div class="item">Documento d’identità partner: <input type="file" name="1_documento_identita_partner" multiple></div>
     <div class="item">Tessera sanitaria tua: <input type="file" name="1_tessera_sanitaria" multiple></div>
     <div class="item">Tessera sanitaria partner: <input type="file" name="1_tessera_sanitaria_partner" multiple></div>
@@ -160,7 +160,7 @@
   </div>
 </form>
 <div id="counter">Sezioni completate: 0 / 8</div>
-<div id="fileCounter" style="margin-top: 10px; font-size: 16px; font-weight: bold;">File caricati: 0</div>
+<div id="fileCounter">File caricati: 0</div>
 <div class="progress-bar-container">
   <div id="progressBar" class="progress-bar"></div>
 </div>
@@ -175,12 +175,10 @@
 
 <script>
 const allowedExtensions = ['bmp', 'doc', 'docx', 'jpeg', 'jpg', 'mov', 'mp4', 'mpeg', 'odt', 'pdf', 'png', 'rtf', 'tif', 'tiff', 'txt', 'zip'];
-const maxFileSize = 5 * 1024 * 1024; // 5MB
+const maxFileSize = 5 * 1024 * 1024;
 const maxFilenameLength = 100;
 
-document.querySelectorAll('input[type="file"]').forEach(input => {
-  input.setAttribute('accept', '*/*');
-});
+document.querySelectorAll('input[type="file"]').forEach(input => { input.setAttribute('accept', '*/*'); });
 
 function validateFiles(input) {
   for (const file of input.files) {
@@ -223,7 +221,6 @@ function updateCounter() {
   document.getElementById('fileCounter').innerText = `File caricati: ${totalFiles}`;
 }
 
-
 document.querySelectorAll('input[type="file"]').forEach(input => {
   input.addEventListener('change', function() {
     validateFiles(this);
@@ -231,30 +228,10 @@ document.querySelectorAll('input[type="file"]').forEach(input => {
   });
 });
 
-function updateCounter() {
-  const form = document.getElementById('uploadForm');
-  const sections = form.querySelectorAll('.section');
-  let completedSections = 0;
-
-  sections.forEach(section => {
-    const inputs = section.querySelectorAll('input[type="file"]');
-    let hasFiles = false;
-
-    inputs.forEach(input => {
-      if (input.files.length > 0) hasFiles = true;
-    });
-
-    if (hasFiles) completedSections++;
-  });
-
-  document.getElementById('counter').innerText = `Sezioni completate: ${completedSections} / 8`;
-  document.getElementById('progressBar').style.width = (completedSections / 8) * 100 + '%';
-}
-
 function downloadAllZips() {
   const form = document.getElementById('uploadForm');
   const sections = form.querySelectorAll('.section');
-  const maxZipSize = 5 * 1024 * 1024; // 5MB
+  const maxZipSize = 5 * 1024 * 1024;
 
   document.getElementById('downloadProgress').style.display = 'block';
   document.getElementById('progressBarDownload').style.width = '0%';
@@ -267,9 +244,7 @@ function downloadAllZips() {
     let files = [];
 
     inputs.forEach(input => {
-      Array.from(input.files).forEach(file => {
-        files.push(file);
-      });
+      Array.from(input.files).forEach(file => { files.push(file); });
     });
 
     if (files.length > 0) {
@@ -280,7 +255,7 @@ function downloadAllZips() {
 
       files.forEach((file, idx) => {
         if (currentSize + file.size > maxZipSize) {
-          currentZip.generateAsync({type: "blob"}).then(function(content) {
+          currentZip.generateAsync({type: "blob"}).then(content => {
             saveAs(content, `${sectionName}_${zipIndex}.zip`);
           });
           currentZip = new JSZip();
@@ -292,7 +267,7 @@ function downloadAllZips() {
       });
 
       if (currentSize > 0) {
-        currentZip.generateAsync({type: "blob"}).then(function(content) {
+        currentZip.generateAsync({type: "blob"}).then(content => {
           saveAs(content, `${sectionName}_${zipIndex}.zip`);
         });
       }
