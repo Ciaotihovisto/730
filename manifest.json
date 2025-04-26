@@ -1,7 +1,7 @@
 {
   "name": "Caricamento 730 Congiunto",
   "short_name": "730 Congiunto",
-  "start_url": "/",
+  "start_url": "/730/",
   "display": "standalone",
   "background_color": "#f7f9fc",
   "theme_color": "#3498db",

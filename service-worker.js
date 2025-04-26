@@ -1,11 +1,13 @@
 const CACHE_NAME = '730-congiunto-cache-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png'
+  '/730/',
+  '/730/index.html',
+  '/730/manifest.json',
+  '/730/icons/icon-192x192.png',
+  '/730/icons/icon-512x512.png'
 ];
+
+navigator.serviceWorker.register('/730/service-worker.js')
 
 self.addEventListener('install', function(event) {
   event.waitUntil(
